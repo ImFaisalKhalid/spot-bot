@@ -18,9 +18,11 @@
   "author": "Faisal Khalid",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.21.1",
     "discord.js": "^12.5.2",
     "dotenv": "^8.2.0",
-    "require": "^2.4.20"
+    "require": "^2.4.20",
+    "spotify-web-api-node": "^5.0.2"
   },
   "devDependencies": {
     "eslint": "^7.23.0",
