@@ -1,3 +1,6 @@
 {
-  "prefix": "!"
+  "PREFIX": "!",
+  "SONG_SEARCH_ERROR": "Error - The song was not found!",
+  "AUTHENTICATION_ERROR": "Error - Something went wrong with Spotify authentication!",
+  "NO_COMMAND_ERROR": "Error - No command with that name was found!"
 }
