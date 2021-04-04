@@ -18,7 +18,7 @@ function parseCommand(message, args) {
   // If we have no arguments
   if (!args.length) {
     // Add some text to our response
-    data.push('Here\'s a list of all my commands:');
+    data.push('Here is a list of all the bot commands:');
     data.push(`**${commands.map((command) => command.name).join(',\n')}**`);
     data.push(`\nYou can send \`${config.PREFIX}help [command name]\` to get info on a specific command!`);
 
