@@ -13,12 +13,17 @@ dotenv.config();
 const spotifyApi = new SpotifyWebApi();
 
 module.exports = {
-  name: 'get-song',
+  name: 'get-song-by-artist',
   description: 'Get a Spotify song',
+  usage: '<TRACK-name-dash-seperated> <ARTIST-name-dash-seperated>',
   cooldown: 5,
   args: true,
   execute(message, args) {
     console.log(args);
+
+    const trackName = args[0].replace(/-/g, ' ');
+    const artistName = args[1].replace(/-/g, ' ');
+    const query = `track:${trackName} artist:${artistName}`;
 
     axios({
       method: 'post',
@@ -32,20 +37,21 @@ module.exports = {
     })
       .then((response) => {
         spotifyApi.setAccessToken(response.data.access_token);
-
-        // Search tracks whose artist's name contains 'Kendrick Lamar',
-        // and track name contains 'Alright'
-        spotifyApi.searchTracks('track:Alright artist:Kendrick Lamar')
+        console.log(`QUERY: ${query}`);
+        spotifyApi.searchTracks(query)
           .then((data) => {
             console.log('Search tracks by "Alright" in the track name and "Kendrick Lamar" in the artist name');
+            console.log(data.body.tracks.items);
             console.log(data.body.tracks.items[0].name);
             console.log(data.body.tracks.items[0].id);
             message.channel.send(`https://open.spotify.com/track/${data.body.tracks.items[0].id}`);
-          }, (err) => {
+          })
+          .catch((err) => {
             console.log('Something went wrong!', err);
             message.channel.send('Oh no! We had a Spotify search error!');
           });
-      }, (error) => {
+      })
+      .catch((error) => {
         console.log(error);
         message.channel.send('Oh no! We had an authentication error!');
       });

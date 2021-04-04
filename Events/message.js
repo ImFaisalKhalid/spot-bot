@@ -16,13 +16,13 @@ module.exports = {
     if (!command) return;
 
     if (command.guildOnly && message.channel.type === 'dm') {
-      message.reply('I can\'t execute that command inside DMs!');
+      return message.reply('I can\'t execute that command inside DMs!');
     }
 
     if (command.permissions) {
       const authorPerms = message.channel.permissionsFor(message.author);
       if (!authorPerms || !authorPerms.has(command.permissions)) {
-        message.reply('You can not do this!');
+        return message.reply('You can not do this!');
       }
     }
 
@@ -33,7 +33,7 @@ module.exports = {
         reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
       }
 
-      message.channel.send(reply);
+      return message.channel.send(reply);
     }
 
     const { cooldowns } = client;
@@ -51,7 +51,7 @@ module.exports = {
 
       if (now < expirationTime) {
         const timeLeft = (expirationTime - now) / 1000;
-        message.reply(`please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`);
+        return message.reply(`please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`);
       }
     }
 
