@@ -5,7 +5,7 @@ const config = require('../../config.json');
  * that we stored in our client in index.js and gives their name, description, and other
  * information.
  *
- * @param message The message send to activate the commmand
+ * @param message The message send to activate the command
  * @param args The command, if any, to show information of
  * @returns {Promise<Message | void>|*}
  */

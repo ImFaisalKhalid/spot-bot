@@ -8,6 +8,7 @@ dotenv.config();
 
 // Create our api wrapper
 const spotifyApi = new SpotifyWebApi();
+let authToken = '';
 
 /**
  * This function uses the Spotify API wrapper to request a song based off certain
@@ -40,8 +41,8 @@ function getSongByArtist(message, query, accessToken) {
  * @param message The message used to call the command
  * @param query The query that needs to be sent to the Spotify API
  */
-function authenticateThenGet(message, query) {
-  axios({
+async function authenticate(message) {
+  await axios({
     method: 'post',
     url: 'https://accounts.spotify.com/api/token',
     headers: {
@@ -52,7 +53,7 @@ function authenticateThenGet(message, query) {
     },
   })
     .then((response) => {
-      getSongByArtist(message, query, response.data.access_token);
+      authToken = response.data.access_token;
     })
     .catch(() => {
       message.channel.send(config.AUTHENTICATION_ERROR);
@@ -72,12 +73,13 @@ module.exports = {
   usage: '<TRACK-name-dash-seperated> <ARTIST-name-dash-seperated>',
   cooldown: 5,
   args: true,
-  execute(message, args) {
+  async execute(message, args) {
     // Arg handling
     const trackName = args[0].replace(/-/g, ' ');
     const artistName = args[1].replace(/-/g, ' ');
     const query = `track:${trackName} artist:${artistName}`;
 
-    authenticateThenGet(message, query);
+    await authenticate(message);
+    getSongByArtist(message, query, authToken);
   },
 };
