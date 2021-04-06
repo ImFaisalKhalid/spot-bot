@@ -14,6 +14,6 @@ module.exports = {
   guildOnly: true,
   execute(message) {
     // Sends message to server where the command was posted
-    message.channel.send('Ping received! Bot is online and working!.');
+    message.channel.send('Ping received! Bot is online and working!');
   },
 };
