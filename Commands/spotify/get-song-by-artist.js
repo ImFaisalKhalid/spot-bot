@@ -74,7 +74,7 @@ module.exports = {
   usage: '<TRACK-name-dash-seperated> <ARTIST-name-dash-seperated>',
   cooldown: 5,
   args: true,
-  async execute(message, args) {
+  async execute(message, args, mongoClient) {
     // Arg handling
     const trackName = args[0].replace(/-/g, ' ');
     const artistName = args[1].replace(/-/g, ' ');

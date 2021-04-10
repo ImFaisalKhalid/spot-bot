@@ -10,7 +10,7 @@ const config = require('../config.json');
  */
 module.exports = {
   name: 'message',
-  execute(message, client) {
+  execute(message, client, mongoClient) {
     // Exits if we have the wrong prefix
     if (!message.content.startsWith(config.PREFIX) || message.author.bot) {
       return;
@@ -71,7 +71,7 @@ module.exports = {
 
     // If all goes well, execute the command!
     try {
-      command.execute(message, args);
+      command.execute(message, args, mongoClient);
     } catch (error) {
       message.reply(config.COMMAND_EXECUTION_ERROR);
     }
