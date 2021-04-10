@@ -6,7 +6,7 @@ module.exports = {
     const myDb = mongoClient.db(message.guild.id);
     const collection = myDb.collection('server-info');
 
-    collection.update(
+    collection.updateOne(
       { name: message.guild.name },
       {
         $set: {

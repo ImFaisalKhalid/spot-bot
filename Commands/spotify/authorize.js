@@ -1,8 +1,6 @@
-const axios = require('axios');
 const SpotifyWebApi = require('spotify-web-api-node');
-const dotenv = require('dotenv');
 const express = require('express');
-const config = require('../../config.json');
+const { MongoClient } = require('mongodb');
 
 const app = express();
 
@@ -12,28 +10,47 @@ app.get('/', (req, res) => {
 
 app.get('/callback', async (req, res) => {
   const { code } = req.query;
-  console.log(code);
-  res.send('successfully authorized');
-  // console.log(res);
-  // try {
-  //   const data = await SpotifyWebApi.authorizationCodeGrant(code);
-  //   const { accessToken, refreshToken } = data.body;
-  //   SpotifyWebApi.setAccessToken(accessToken);
-  //   SpotifyWebApi.setRefreshToken(refreshToken);
-  //
-  //   res.redirect('http://localhost:8888/success');
-  // } catch (err) {
-  //   res.redirect('/#/error/invalid token');
-  // }
+  const { state } = req.query;
+
+  const mongoLogin = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}`;
+  const mongoServer = '@spotbotdata.ihjlp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+  const uri = mongoLogin + mongoServer;
+
+  const myMongoClient = new MongoClient(uri);
+  await myMongoClient.connect();
+
+  const userId = state.split('!')[0];
+  const serverId = state.split('!')[1];
+  const username = state.split('!')[2];
+
+  console.log(userId);
+  console.log(serverId);
+  console.log(username);
+
+  const myDb = myMongoClient.db(serverId);
+  const collection = myDb.collection('users');
+
+  collection.updateOne(
+    { id: userId },
+    {
+      $set: {
+        authorizationCode: code,
+        name: username,
+      },
+    },
+    { upsert: true },
+  );
+
+  res.send('Authorization successful!');
 });
 
 app.listen(8888);
 
-function requestUserPermissions(message) {
+async function requestUserPermissions(message) {
   const scopes = ['playlist-modify-public', 'playlist-read-collaborative', 'playlist-modify-private', 'playlist-read-private'];
   const redirectUri = 'http://localhost:8888/callback';
   const clientId = process.env.SPOTIFY_CLIENT_ID;
-  const state = 'some-state-of-my-choice';
+  const state = `${message.author.id.toString()}!${message.guild.id.toString()}!${message.author.tag}`;
 
   // Setting credentials can be done in the wrapper's constructor
   const spotifyApi = new SpotifyWebApi({
@@ -42,7 +59,7 @@ function requestUserPermissions(message) {
   });
 
   // Create the authorization URL
-  const authorizeURL = spotifyApi.createAuthorizeURL(scopes, state);
+  const authorizeURL = await spotifyApi.createAuthorizeURL(scopes, state);
 
   // console.log(authorizeURL);
   message.author.send(authorizeURL);

@@ -73,6 +73,7 @@ module.exports = {
   description: 'Get a Spotify song',
   usage: '<TRACK-name-dash-seperated> <ARTIST-name-dash-seperated>',
   cooldown: 5,
+  aliases: ['get-song', 'gs'],
   args: true,
   async execute(message, args, mongoClient) {
     // Arg handling
