@@ -2,6 +2,8 @@ const fs = require('fs');
 const Discord = require('discord.js');
 const dotenv = require('dotenv');
 
+// express().use('/', router);
+
 // Configure the .env
 dotenv.config();
 

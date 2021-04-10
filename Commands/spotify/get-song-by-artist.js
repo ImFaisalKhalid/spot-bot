@@ -28,7 +28,8 @@ function getSongByArtist(message, query, accessToken) {
     .then((data) => {
       message.channel.send(`https://open.spotify.com/track/${data.body.tracks.items[0].id}`);
     })
-    .catch(() => {
+    .catch((err) => {
+      console.log(err);
       message.channel.send(config.SONG_SEARCH_ERROR);
     });
 }
