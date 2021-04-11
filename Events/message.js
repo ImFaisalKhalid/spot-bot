@@ -1,5 +1,8 @@
 const Discord = require('discord.js');
 const config = require('../config.json');
+const setup = require('../Commands/utility/setup');
+
+let setupRan = false;
 
 /**
  * This module executes whenever a message in the Discord server is sent. It checks the
@@ -10,7 +13,18 @@ const config = require('../config.json');
  */
 module.exports = {
   name: 'message',
-  execute(message, client, mongoClient) {
+  async execute(message, client, mongoClient) {
+    // Run our setup
+    if (!setupRan) {
+      setup.execute(message, '', mongoClient);
+      setupRan = true;
+      console.log('Running setup');
+    }
+
+    // Confirm user is authorized
+    // const myDb = mongoClient.db(message.guild.id.toString());
+    // const collection = myDb.collection('users');
+
     // Exits if we have the wrong prefix
     if (!message.content.startsWith(config.PREFIX) || message.author.bot) {
       return;

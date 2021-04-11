@@ -4,5 +4,6 @@
   "AUTHENTICATION_ERROR": "Error - Something went wrong with Spotify authentication!",
   "NO_COMMAND_ERROR": "Error - No command with that name was found!",
   "WRONG_PERM_ERROR": "Error - Your permissions do not allow this command!",
-  "COMMAND_EXECUTION_ERROR": "Error - Something went wrong with the command execution!"
+  "COMMAND_EXECUTION_ERROR": "Error - Something went wrong with the command execution!",
+  "PLAYLIST_NOT_FOUND_ERROR": "Error - The playlist was not found. The playlist must be a server playlist made using the create-playlist command!"
 }

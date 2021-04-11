@@ -18,8 +18,5 @@ module.exports = {
       },
       { upsert: true },
     );
-
-    // Sends message to server where the command was posted
-    message.channel.send('Setup is done! The bot is ready for commands!');
   },
 };

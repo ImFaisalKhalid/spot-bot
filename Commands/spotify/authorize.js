@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/callback', async (req, res) => {
-  const { code } = req.query;
+  const { code: accessCode } = req.query;
   const { state } = req.query;
 
   const mongoLogin = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}`;
@@ -28,26 +28,58 @@ app.get('/callback', async (req, res) => {
   const serverId = state.split('!')[1];
   const username = state.split('!')[2];
 
-  const myDb = myMongoClient.db(serverId);
-  const collection = myDb.collection('users');
+  const myDb1 = myMongoClient.db(serverId);
+  const collection1 = myDb1.collection('users');
 
-  collection.updateOne(
+  collection1.updateOne(
     { id: userId },
     {
       $set: {
-        authorizationCode: code,
+        authorizationCode: accessCode,
         name: username,
       },
     },
     { upsert: true },
   );
 
+  const myDb = myMongoClient.db(serverId);
+  const collection = myDb.collection('users');
+
+  // Done manually since spotify web wrapper has known bug
+  axios({
+    method: 'post',
+    url: 'https://accounts.spotify.com/api/token',
+    headers: {
+      Authorization: `Basic ${Buffer.from(`${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_TOKEN}`).toString('base64')}`,
+    },
+    params: {
+      grant_type: 'authorization_code',
+      code: accessCode,
+      redirect_uri: 'http://localhost:8888/callback',
+    },
+  })
+    .then((response) => {
+      collection.updateOne(
+        { id: userId },
+        {
+          $set: {
+            accessToken: response.data.access_token,
+            refreshToken: response.data.refresh_token,
+            expiresIn: response.data.expires_in,
+          },
+        },
+        { upsert: true },
+      );
+    }, (error) => {
+      console.log(error);
+    });
+
   res.send('Authorization successful!');
 });
 
 app.listen(8888);
 
-async function requestUserPermissions(message, mongoClient) {
+async function requestUserPermissions(message) {
   const scopes = ['playlist-modify-public', 'playlist-read-collaborative', 'playlist-modify-private', 'playlist-read-private'];
   const redirectUri = 'http://localhost:8888/callback';
   const clientId = process.env.SPOTIFY_CLIENT_ID;
@@ -61,42 +93,6 @@ async function requestUserPermissions(message, mongoClient) {
 
   // Create the authorization URL, send it, save the resp in mongoDb
   const authorizeURL = await spotifyApi.createAuthorizeURL(scopes, state);
-
-  const myDb = mongoClient.db(message.guild.id.toString());
-  const collection = myDb.collection('users');
-
-  const result = await collection.findOne(
-    { id: message.author.id.toString() },
-  );
-
-  // Done manually since spotify web wrapper has known bug
-  axios({
-    method: 'post',
-    url: 'https://accounts.spotify.com/api/token',
-    headers: {
-      Authorization: `Basic ${Buffer.from(`${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_TOKEN}`).toString('base64')}`,
-    },
-    params: {
-      grant_type: 'authorization_code',
-      code: result.authorizationCode,
-      redirect_uri: redirectUri,
-    },
-  })
-    .then((response) => {
-      collection.updateOne(
-        { id: message.author.id.toString() },
-        {
-          $set: {
-            accessToken: response.data.access_token,
-            refreshToken: response.data.refresh_token,
-            expiresIn: response.data.expires_in,
-          },
-        },
-        { upsert: true },
-      );
-    }, (error) => {
-      console.log(error);
-    });
 
   // console.log(authorizeURL);
   message.author.send(authorizeURL);
