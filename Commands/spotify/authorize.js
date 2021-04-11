@@ -97,7 +97,7 @@ async function requestUserPermissions(message, mongoClient) {
     }, (error) => {
       console.log(error);
     });
-  
+
   // console.log(authorizeURL);
   message.author.send(authorizeURL);
 }
