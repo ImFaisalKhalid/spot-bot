@@ -18,12 +18,7 @@ module.exports = {
     if (!setupRan) {
       setup.execute(message, '', mongoClient);
       setupRan = true;
-      console.log('Running setup');
     }
-
-    // Confirm user is authorized
-    // const myDb = mongoClient.db(message.guild.id.toString());
-    // const collection = myDb.collection('users');
 
     // Exits if we have the wrong prefix
     if (!message.content.startsWith(config.PREFIX) || message.author.bot) {

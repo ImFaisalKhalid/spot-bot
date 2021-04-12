@@ -9,10 +9,11 @@ const app = express();
 // Configure the .env
 dotenv.config();
 
-app.get('/', (req, res) => {
-  res.send('hello world');
-});
-
+/**
+ * Local express callback url to allow us to get the data once accepting the permissions transfers
+ * the user over to our redirect URL. Once the data is received, it will save the access code into
+ * our database.
+ */
 app.get('/callback', async (req, res) => {
   const { code: accessCode } = req.query;
   const { state } = req.query;
@@ -79,6 +80,13 @@ app.get('/callback', async (req, res) => {
 
 app.listen(8888);
 
+/**
+ * This function simply uses the Spotify wrapper to build a specific authorization link using
+ * various different scopes.
+ *
+ * @param message The Discord message of the command
+ * @returns {Promise<void>}
+ */
 async function requestUserPermissions(message) {
   const scopes = ['playlist-modify-public', 'playlist-read-collaborative', 'playlist-modify-private', 'playlist-read-private'];
   const redirectUri = 'http://localhost:8888/callback';
@@ -94,13 +102,14 @@ async function requestUserPermissions(message) {
   // Create the authorization URL, send it, save the resp in mongoDb
   const authorizeURL = await spotifyApi.createAuthorizeURL(scopes, state);
 
-  // console.log(authorizeURL);
-  message.author.send(authorizeURL);
+  // Sends the message
+  await message.author.send(authorizeURL);
 }
 
 /**
- * This command will be used to authorize the bot to use specific information
- * from a user's account. Note: Blank module left intentionally to for TODO.
+ * This command is used to authorize the user. Spotify requires my app to have some 'permissions'
+ * and they need to be accepted by the user. This module sends them a link that allows them to
+ * confirm permissions and then stores info into our database.
  *
  * @type {{name: string, description: string, guildOnly: boolean, execute(*, *)}}
  */

@@ -1,11 +1,23 @@
 const SpotifyWebApi = require('spotify-web-api-node');
 const axios = require('axios');
+const refreshAccess = require('./utils/refresh-token');
 
+/**
+ * This function creates the actual playlist. It makes a basic post request to the Spotify
+ * API using AXIOS along with the user's specific Access Token. The new playlist made is then
+ * stored inside the database.
+ *
+ * @param args The arguments giving with the command
+ * @param message The Discord message of the command
+ * @param mongoClient Our mongo database client
+ * @returns {Promise<void>}
+ */
 async function createPlaylist(args, message, mongoClient) {
   // Gets the spotify Id of the user
   const myDb = mongoClient.db(message.guild.id.toString());
   const collection = myDb.collection('users');
 
+  // Finding the user collection and getting the userId
   const result = await collection.findOne(
     { id: message.author.id.toString() },
   );
@@ -29,6 +41,7 @@ async function createPlaylist(args, message, mongoClient) {
     },
   })
     .then(async (response) => {
+      // Update database
       await playlistCollection.updateOne(
         { id: response.data.id },
         {
@@ -43,12 +56,21 @@ async function createPlaylist(args, message, mongoClient) {
         { upsert: true },
       );
 
+      // Send response
       message.channel.send(response.data.external_urls.spotify);
     }, (error) => {
       console.log(error);
     });
 }
 
+/**
+ * This function either gets or updates the user's specific Spotify Id. It does
+ * so by using the Spotify web node wrapper and saves the info inside our database.
+ *
+ * @param message The Discord message of the command
+ * @param mongoClient Our mongo database client
+ * @returns {Promise<void>}
+ */
 async function getSpotifyUserId(message, mongoClient) {
   const myDb = mongoClient.db(message.guild.id.toString());
   const collection = myDb.collection('users');
@@ -58,20 +80,15 @@ async function getSpotifyUserId(message, mongoClient) {
   );
 
   // credentials are optional
-  const spotifyApi = new SpotifyWebApi({
-    clientId: 'fcecfc72172e4cd267473117a17cbd4d',
-    clientSecret: 'a6338157c9bb5ac9c71924cb2940e1a7',
-    redirectUri: 'http://www.example.com/callback',
-  });
+  const spotifyApi = new SpotifyWebApi();
 
+  // Set our access token
   await spotifyApi.setAccessToken(result.accessToken);
 
   // Get the authenticated user
   await spotifyApi.getMe()
     .then(async (data) => {
-      console.log('ID', data.body.id);
-      console.log('DN', data.body.display_name);
-
+      // Add to database
       await collection.updateOne(
         { id: message.author.id.toString() },
         {
@@ -87,42 +104,13 @@ async function getSpotifyUserId(message, mongoClient) {
     });
 }
 
-async function refreshToken(message, mongoClient) {
-  const myDb = mongoClient.db(message.guild.id.toString());
-  const collection = myDb.collection('users');
-
-  const result = await collection.findOne(
-    { id: message.author.id.toString() },
-  );
-
-  // Done manually since spotify web wrapper has known bug
-  await axios({
-    method: 'post',
-    url: 'https://accounts.spotify.com/api/token',
-    headers: {
-      Authorization: `Basic ${Buffer.from(`${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_TOKEN}`).toString('base64')}`,
-    },
-    params: {
-      grant_type: 'refresh_token',
-      refresh_token: result.refreshToken,
-    },
-  })
-    .then(async (response) => {
-      await collection.updateOne(
-        { id: message.author.id.toString() },
-        {
-          $set: {
-            accessToken: response.data.access_token,
-            expiresIn: response.data.expires_in,
-          },
-        },
-        { upsert: true },
-      );
-    }, (error) => {
-      console.log(error);
-    });
-}
-
+/**
+ * This module is used to create specific server playlists. The playlist data is then stored
+ * into a database to allow adding to the playlists in the future.
+ *
+ * @type {{args: boolean, aliases: [string], usage: string, name: string,
+ * description: string, guildOnly: boolean, execute(*=, *=, *=): Promise<void>}}
+ */
 module.exports = {
   name: 'create-server-playlist',
   description: 'This command will create a collaborative playlist for the server!',
@@ -131,8 +119,16 @@ module.exports = {
   guildOnly: true,
   args: true,
   async execute(message, args, mongoClient) {
-    // Sends message to server where the command was posted
-    await refreshToken(message, mongoClient);
+    // Connect to database
+    const myDb = mongoClient.db(message.guild.id.toString());
+    const collection = myDb.collection('users');
+
+    const result = await collection.findOne(
+      { id: message.author.id.toString() },
+    );
+
+    // Refresh our token prior to doing anything else
+    refreshAccess.execute(message, message.author.id.toString(), result.refreshToken, mongoClient);
     await getSpotifyUserId(message, mongoClient);
     await createPlaylist(args, message, mongoClient);
   },

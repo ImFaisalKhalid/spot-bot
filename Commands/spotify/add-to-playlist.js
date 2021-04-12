@@ -1,7 +1,7 @@
-const axios = require('axios');
 const SpotifyWebApi = require('spotify-web-api-node');
 const dotenv = require('dotenv');
 const config = require('../../config.json');
+const refreshAccess = require('./utils/refresh-token');
 
 // Configure our .env
 dotenv.config();
@@ -10,6 +10,17 @@ dotenv.config();
 const spotifyApi = new SpotifyWebApi();
 let songId;
 
+/**
+ * This function uses the spotify web node wrapper to add tracks to a specific playlist. The
+ * playlist requires an access token and the playlist Id for it to work.
+ *
+ * @param message The Discord message of the command
+ * @param mongoClient Our mongo database client
+ * @param playlistId The Id of the playlist to add to
+ * @param accessToken The access token of the user with the playlist
+ * @param songIdToAdd The id of the song to add
+ * @returns {Promise<void>}
+ */
 async function addToPlaylist(message, mongoClient, playlistId, accessToken, songIdToAdd) {
   // Set our access token
   spotifyApi.setAccessToken(accessToken);
@@ -29,7 +40,19 @@ async function addToPlaylist(message, mongoClient, playlistId, accessToken, song
     });
 }
 
+/**
+ * This function uses the spotify web node wrapper to search for a specific song and get
+ * its ID. The ID is needed to add the song to the playlist.
+ *
+ * @param message The Discord message of the command
+ * @param mongoClient Our mongo database client
+ * @param trackName The name of the track to search
+ * @param artistName The name of the artist associated with the track
+ * @param accessToken The access token for the user
+ * @returns {Promise<void>}
+ */
 async function getSongId(message, mongoClient, trackName, artistName, accessToken) {
+  // Some simple string formatting to make query the right format for spotify
   const query = `track:${trackName} artist:${artistName}`;
 
   // Set our access token
@@ -46,45 +69,18 @@ async function getSongId(message, mongoClient, trackName, artistName, accessToke
     });
 }
 
-async function refreshAccess(message, userId, refreshToken, mongoClient) {
-  const myDb = mongoClient.db(message.guild.id.toString());
-  const collection = myDb.collection('users');
-
-  // Done manually since spotify web wrapper has known bug
-  await axios({
-    method: 'post',
-    url: 'https://accounts.spotify.com/api/token',
-    headers: {
-      Authorization: `Basic ${Buffer.from(`${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_TOKEN}`).toString('base64')}`,
-    },
-    params: {
-      grant_type: 'refresh_token',
-      refresh_token: refreshToken,
-    },
-  })
-    .then((response) => {
-      console.log(userId);
-      console.log(response.data.access_token);
-      collection.updateOne(
-        { id: userId },
-        {
-          $set: {
-            accessToken: response.data.access_token,
-            expiresIn: response.data.expires_in,
-          },
-        },
-        { upsert: true },
-      );
-    }, (error) => {
-      console.log(error);
-    });
-}
-
+/**
+ * This module is used to add a specific song to a specific playlist. It heavily uses information
+ * from our database to get access tokens, playlist Ids, and verify server playlist actually exists.
+ *
+ * @type {{args: boolean, aliases: [string, string, string], usage: string, name: string,
+ * description: string, guildOnly: boolean, execute(*=, *, *=): Promise<undefined>}}
+ */
 module.exports = {
   name: 'add-to-playlist',
   description: 'Use this command to list all the server playlists!',
   usage: '<TRACK-name-dash-seperated> <ARTIST-name-dash-seperated> <PLAYLIST-name-dash-seperated>',
-  aliases: ['add', 'a'],
+  aliases: ['add', 'a', 'addtoplaylist'],
   guildOnly: true,
   args: true,
   async execute(message, args, mongoClient) {
@@ -132,7 +128,7 @@ module.exports = {
 
     // Get our new access token from the user
     let accessToken;
-    await refreshAccess(message, userId, refreshToken, mongoClient);
+    await refreshAccess.execute(message, userId, refreshToken, mongoClient);
     await userCollections.find().forEach(
       (myDoc) => {
         if (myDoc.id === userId) {

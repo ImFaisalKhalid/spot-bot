@@ -1,3 +1,10 @@
+/**
+ * This module executes code to list all of the playlists the server has. It does this
+ * by going through the database and looking at all of the saved playlist data.
+ *
+ * @type {{aliases: [string, string], name: string, description: string,
+ * guildOnly: boolean, execute(*, *, *): Promise<void>}}
+ */
 module.exports = {
   name: 'list-playlists',
   description: 'Use this command to list all the server playlists!',
@@ -12,6 +19,7 @@ module.exports = {
     const data = [];
     data.push('Here is a list of all the server playlists:');
 
+    // Loop through our collection
     await collection.find().forEach(
       (myDoc) => {
         data.push(myDoc.playlistName);

@@ -73,9 +73,9 @@ module.exports = {
   description: 'Get a Spotify song',
   usage: '<TRACK-name-dash-seperated> <ARTIST-name-dash-seperated>',
   cooldown: 5,
-  aliases: ['get-song', 'gs'],
+  aliases: ['get-song', 'gs', 'getsongbyartist'],
   args: true,
-  async execute(message, args, mongoClient) {
+  async execute(message, args) {
     // Arg handling
     const trackName = args[0].replace(/-/g, ' ');
     const artistName = args[1].replace(/-/g, ' ');
