@@ -1,9 +1,17 @@
 const fs = require('fs');
 const Discord = require('discord.js');
 const dotenv = require('dotenv');
+const { MongoClient } = require('mongodb');
 
 // Configure the .env
 dotenv.config();
+
+const mongoLogin = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}`;
+const mongoServer = '@spotbotdata.ihjlp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+const uri = mongoLogin + mongoServer;
+
+const myMongoClient = new MongoClient(uri);
+myMongoClient.connect();
 
 // Setup the Discord client and create
 const client = new Discord.Client();
@@ -32,9 +40,9 @@ for (const file of eventFiles) {
   // Executes the event
   const event = require(`./Events/${file}`);
   if (event.once) {
-    client.once(event.name, (...args) => event.execute(...args, client));
+    client.once(event.name, (...args) => event.execute(...args, client, myMongoClient));
   } else {
-    client.on(event.name, (...args) => event.execute(...args, client));
+    client.on(event.name, (...args) => event.execute(...args, client, myMongoClient));
   }
 }
 

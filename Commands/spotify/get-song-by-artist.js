@@ -28,7 +28,8 @@ function getSongByArtist(message, query, accessToken) {
     .then((data) => {
       message.channel.send(`https://open.spotify.com/track/${data.body.tracks.items[0].id}`);
     })
-    .catch(() => {
+    .catch((err) => {
+      console.log(err);
       message.channel.send(config.SONG_SEARCH_ERROR);
     });
 }
@@ -72,6 +73,7 @@ module.exports = {
   description: 'Get a Spotify song',
   usage: '<TRACK-name-dash-seperated> <ARTIST-name-dash-seperated>',
   cooldown: 5,
+  aliases: ['get-song', 'gs', 'getsongbyartist'],
   args: true,
   async execute(message, args) {
     // Arg handling
