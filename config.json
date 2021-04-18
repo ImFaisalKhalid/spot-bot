@@ -25,5 +25,6 @@
   "ARG_NUM_ERROR": "Error - One or more of the arguments needs to be a number!",
   "CHECK_USAGE_ERROR": "Error - At least one of the arguments is incorrect. Use the help command to check usage!",
   "BEGIN_SCORING_MESSAGE": "You will be given a list of songs based off the playlist you specified. Listen to those songs and give each song a rating out of 10 using the `!score <number>` command. Type `!begin` once you are ready to begin scoring!",
-  "FINISH_SCORING_MESSAGE": "Your responses were saved. Thank you!"
+  "FINISH_SCORING_MESSAGE": "Your responses were saved. Thank you!",
+  "GUILD_ONLY_ERROR": "Error - This command can only be run in a server channel!"
 }

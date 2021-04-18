@@ -14,7 +14,6 @@ let setupRan = false;
 module.exports = {
   name: 'message',
   async execute(message, client, mongoClient) {
-    console.log(message.channel.type === 'dm');
     // Run our setup
     if (!setupRan) {
       setup.execute(message, '', mongoClient);
@@ -53,6 +52,11 @@ module.exports = {
         reply += `\nThe proper usage would be: \`${config.PREFIX}${command.name} ${command.usage}\``;
       }
       message.channel.send(reply);
+      return;
+    }
+
+    if (command.guildOnly && message.channel.type === 'dm') {
+      message.channel.send(config.GUILD_ONLY_ERROR);
       return;
     }
 

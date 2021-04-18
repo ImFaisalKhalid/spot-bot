@@ -8,7 +8,7 @@
 module.exports = {
   name: 'list-playlists',
   description: 'Use this command to list all the server playlists!',
-  aliases: ['list', 'l'],
+  aliases: ['list', 'l', 'playlists'],
   guildOnly: true,
   async execute(message, args, mongoClient) {
     const myDb = mongoClient.db(message.guild.id.toString());
