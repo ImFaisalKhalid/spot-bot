@@ -1,9 +1,29 @@
 {
   "PREFIX": "!",
+  "DM_ONLY_ERROR": "Error - This command can only be used through DMs. Message the bot with the command!",
   "SONG_SEARCH_ERROR": "Error - The song was not found!",
   "AUTHENTICATION_ERROR": "Error - Something went wrong with Spotify authentication!",
   "NO_COMMAND_ERROR": "Error - No command with that name was found!",
   "WRONG_PERM_ERROR": "Error - Your permissions do not allow this command!",
   "COMMAND_EXECUTION_ERROR": "Error - Something went wrong with the command execution!",
-  "PLAYLIST_NOT_FOUND_ERROR": "Error - The playlist was not found. The playlist must be a server playlist made using the create-playlist command!"
+  "PLAYLIST_NOT_FOUND_ERROR": "Error - The playlist was not found. The playlist must be a server playlist made using the create-playlist command!",
+  "GENRES" : [
+    "pop",
+    "rap",
+    "rock",
+    "edm",
+    "country",
+    "hip hop",
+    "emo",
+    "metal",
+    "punk",
+    "latin hip hop",
+    "punk",
+    "jazz"
+  ],
+  "SONG_NOT_FOUND_ERROR": "Error - The genre is not found or not supported. Run the genres command to list available genres!",
+  "ARG_NUM_ERROR": "Error - One or more of the arguments needs to be a number!",
+  "CHECK_USAGE_ERROR": "Error - At least one of the arguments is incorrect. Use the help command to check usage!",
+  "BEGIN_SCORING_MESSAGE": "You will be given a list of songs based off the playlist you specified. Listen to those songs and give each song a rating out of 10 using the `!score <number>` command. Type `!begin` once you are ready to begin scoring!",
+  "FINISH_SCORING_MESSAGE": "Your responses were saved. Thank you!"
 }

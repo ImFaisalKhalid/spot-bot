@@ -11,7 +11,6 @@ module.exports = {
   aliases: ['list', 'l'],
   guildOnly: true,
   async execute(message, args, mongoClient) {
-    // Sends message to server where the command was posted
     const myDb = mongoClient.db(message.guild.id.toString());
     const collection = myDb.collection('playlists');
 

@@ -100,7 +100,6 @@ module.exports = {
     await collection.find().forEach(
       (myDoc) => {
         data.push(myDoc.playlistName);
-
         // Get the owner of the playlist
         if (myDoc.playlistName === playlistName) {
           userId = myDoc.submittedById;

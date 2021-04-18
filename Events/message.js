@@ -14,6 +14,7 @@ let setupRan = false;
 module.exports = {
   name: 'message',
   async execute(message, client, mongoClient) {
+    console.log(message.channel.type === 'dm');
     // Run our setup
     if (!setupRan) {
       setup.execute(message, '', mongoClient);
