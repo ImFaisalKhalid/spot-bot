@@ -7,6 +7,16 @@ const buildScoreCollection = require('./utils/build-score-collection');
 // Create our api wrapper
 const spotifyApi = new SpotifyWebApi();
 
+/**
+ * This function initiates a message - response system utilizing the Discord channel
+ * collection. It collects messages that have the !score prefix and then saves the score
+ * into the database. Upon the end of this collector, it displays the current score total.
+ *
+ * @param message The message used to call the command
+ * @param playlistId The ID of the playlist we are 'scoring'
+ * @param mongoClient Our mongo database client
+ * @returns {Promise<void>}
+ */
 async function collectScores(message, playlistId, mongoClient) {
   // Connection
   const myDb = mongoClient.db(message.guild.id.toString());
@@ -37,6 +47,7 @@ async function collectScores(message, playlistId, mongoClient) {
         playlistLength = myDoc[username].scores.length;
 
         if (myDoc.totals === undefined || myDoc.totals === null) {
+          // Creates a deep copy of the scores array
           totalScoreData = JSON.parse(JSON.stringify(myDoc[username].scores));
         } else {
           totalScoreData = myDoc.totals.scores;
@@ -45,15 +56,17 @@ async function collectScores(message, playlistId, mongoClient) {
     },
   );
 
-  console.log(totalScoreData);
-
+  // This will filter out anything that is not !score or !begin in our collector
   const filter = (m) => m.content.startsWith('!score') || m.content.startsWith('!begin');
 
-  let count = 0;
+  // Get brief instructions on how to start scoring
   await message.author.send(config.BEGIN_SCORING_MESSAGE);
   const collector = message.author.dmChannel.createMessageCollector(filter);
 
+  // The following runs on the whenever the correct message is collected
+  let count = 0;
   collector.on('collect', async (m) => {
+    // Because of our !begin message, count is off by 1
     if (count > 0) {
       scoreData[count - 1].score = m.content.split(' ')[1];
 
@@ -65,6 +78,7 @@ async function collectScores(message, playlistId, mongoClient) {
       totalScoreData[count - 1].score = newTotal;
     }
 
+    // Collector stops when we get through the entire playlist
     if (count === playlistLength) {
       collector.stop();
       return;
@@ -84,17 +98,20 @@ async function collectScores(message, playlistId, mongoClient) {
     count += 1;
   });
 
+  // This runs when the collector is finished
   collector.on('end', async () => {
     message.author.dmChannel.send(config.FINISH_SCORING_MESSAGE);
     message.author.dmChannel.send('Here are the current scores');
 
+    // Pushes data into array so we can print/send it
     const response = [];
     for (let i = 0; i < totalScoreData.length; i += 1) {
       response.push(`***${totalScoreData[i].name}***`);
       response.push(totalScoreData[i].score);
     }
     message.author.dmChannel.send(response);
-    // console.log(scoreData);
+
+    // Update our database based off the received scores
     await scoresCollection.updateOne(
       { name: playlistId },
       {
@@ -110,14 +127,20 @@ async function collectScores(message, playlistId, mongoClient) {
       { upsert: true },
     );
   });
-
-  console.log('Completed?');
 }
 
+/**
+ * This module refreshes the server token, gets the playlist Id based off the argument, then
+ * builds a new collection for the playlist scores if needed, and then sets up a message
+ * response system to collect the scores.
+ *
+ * @type {{args: boolean, aliases: [string, string], usage: string, name: string,
+ * description: string, guildOnly: boolean, execute(*=, *, *=): Promise<undefined>}}
+ */
 module.exports = {
   name: 'start-scoring',
   description: 'Use this to score a playlist!',
-  aliases: ['ss', 'startscoring'],
+  aliases: ['ss', 'startscoring, score'],
   args: true,
   guildOnly: true,
   usage: '<PLAYLIST-name-dash-seperated>',
