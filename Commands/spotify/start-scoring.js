@@ -84,7 +84,7 @@ async function collectScores(message, playlistId, mongoClient) {
       return;
     }
 
-    message.author.dmChannel.send('Rate this song using `!score <number>` boi');
+    message.author.dmChannel.send('Rate this song using `!score <number>`');
     // Search for song based off query
     await spotifyApi.searchTracks(`track:${scoreData[count].name} artist:${scoreData[count].artist}`)
       .then((data) => {
