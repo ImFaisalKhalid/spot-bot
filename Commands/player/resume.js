@@ -4,10 +4,9 @@ module.exports = {
   name: 'resume',
   description: 'This command will pause the current song!',
   cooldown: 1,
-  aliases: ['r'],
+  aliases: ['rs'],
   guildOnly: true,
   execute(message, args, mongoClient, client) {
-    // Sends message to server where the command was posted
     const data = client.active.get(message.guild.id);
 
     if (!data) {

@@ -1,12 +1,24 @@
 const config = require('../../config.json');
 
 module.exports = {
-  name: 'pause',
-  description: 'This command will pause the current song!',
+  name: 'volume',
+  description: 'This command can be used to adjust volume!',
   cooldown: 1,
-  aliases: ['ps'],
+  aliases: ['v'],
   guildOnly: true,
+  args: true,
   execute(message, args, mongoClient, client) {
+    // Arg checking
+    if (args[0] === undefined || isNaN(args[0])) {
+      message.channel.send(config.CHECK_USAGE_ERROR);
+      return;
+    }
+
+    // Volume value checking
+    if (args[0] < 0 || args[0] > 100) {
+      message.channel.send('Volume must be between 0 and 100');
+      return;
+    }
     const data = client.active.get(message.guild.id);
 
     if (!data) {
@@ -21,14 +33,7 @@ module.exports = {
       return;
     }
 
-    // Check if already paused
-    if (data.dispatcher.paused) {
-      message.channel.send('Bot is already paused!');
-      return;
-    }
-
-    // If not, pause
-    data.dispatcher.pause(true);
-    message.channel.send(`Paused ${data.queue[0].songTitle} by ${data.queue[0].songArtist}!`);
+    data.dispatcher.setVolume(args[0] / 100);
+    message.channel.send('Volume changed!');
   },
 };
