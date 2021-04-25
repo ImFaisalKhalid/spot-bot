@@ -16,7 +16,7 @@ const youtubeV3 = google.youtube({ version: 'v3', auth: process.env.YOUTUBE_KEY 
 
 async function play(client, message, data) {
   // connection.play(await ytdl(url), { type: 'opus', bitrate: 128000 });
-  message.channel.send(`Now playing: ${data.queue[0].songTitle} by ${data.queue[0].songAritst}. Song was requested by ${data.queue[0].requester}!`);
+  message.channel.send(`Now playing: ${data.queue[0].songTitle} by ${data.queue[0].songArtist}. Song was requested by ${data.queue[0].requester}!`);
   for (let i = 0; i < data.queue.length; i += 1) {
     const messageData = [];
     messageData.push('------------------------------------------');
@@ -31,7 +31,7 @@ async function play(client, message, data) {
   }
 
   // eslint-disable-next-line no-param-reassign
-  data.dispatcher = await data.connection.play(await ytdl(data.queue[0].url), { type: 'opus', bitrate: 512000 });
+  data.dispatcher = await data.connection.play(await ytdl(data.queue[0].url), { type: 'opus', bitrate: 512000, highWaterMark: 25 });
   // eslint-disable-next-line no-param-reassign
   data.dispatcher.guildId = data.guildId;
 
