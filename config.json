@@ -29,5 +29,5 @@
   "GUILD_ONLY_ERROR": "Error - This command can only be run in a server channel!",
   "INCORRECT_ROLE_ERROR": "Error - You do not have the required roles for this command!",
   "VOICE_CHAT_ERROR": "Error - You need to be in a voice channel to use this command!",
-  "ALREADY_IN_VC_ERROR": "Error - The bot is already in a voice channel! Join that to run this command!"
+  "ALREADY_IN_VC_ERROR": "Error - Join the voice channel the bot is in to run this command!"
 }

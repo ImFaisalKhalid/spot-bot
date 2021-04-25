@@ -31,7 +31,7 @@ async function play(client, message, data) {
   }
 
   // eslint-disable-next-line no-param-reassign
-  data.dispatcher = await data.connection.play(await ytdl(data.queue[0].url), { type: 'opus', bitrate: 512000, highWaterMark: 25 });
+  data.dispatcher = await data.connection.play(await ytdl(data.queue[0].url), { type: 'opus', bitrate: 512000, highWaterMark: 30 });
   // eslint-disable-next-line no-param-reassign
   data.dispatcher.guildId = data.guildId;
 
