@@ -1,6 +1,7 @@
 const SpotifyWebApi = require('spotify-web-api-node');
 const axios = require('axios');
 const refreshAccess = require('./utils/refresh-token');
+const config = require('../../config.json');
 
 /**
  * This function creates the actual playlist. It makes a basic post request to the Spotify
@@ -118,7 +119,14 @@ module.exports = {
   aliases: ['csp'],
   guildOnly: true,
   args: true,
+  role: 'DJ',
   async execute(message, args, mongoClient) {
+    // Arg check
+    if (args[0] === undefined) {
+      message.channel.send(config.CHECK_USAGE_ERROR);
+      return;
+    }
+
     // Connect to database
     const myDb = mongoClient.db(message.guild.id.toString());
     const collection = myDb.collection('users');

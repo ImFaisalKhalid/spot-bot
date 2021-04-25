@@ -50,7 +50,7 @@ async function collectScores(message, playlistId, mongoClient) {
           // Creates a deep copy of the scores array
           totalScoreData = JSON.parse(JSON.stringify(myDoc[username].scores));
         } else {
-          totalScoreData = myDoc.totals.scores;
+          totalScoreData = myDoc.totals;
         }
       }
     },
@@ -65,7 +65,7 @@ async function collectScores(message, playlistId, mongoClient) {
 
   // The following runs on the whenever the correct message is collected
   let count = 0;
-  collector.on('collect', async (m) => {
+  await collector.on('collect', async (m) => {
     // Because of our !begin message, count is off by 1
     if (count > 0) {
       scoreData[count - 1].score = m.content.split(' ')[1];
@@ -99,7 +99,7 @@ async function collectScores(message, playlistId, mongoClient) {
   });
 
   // This runs when the collector is finished
-  collector.on('end', async () => {
+  await collector.on('end', async () => {
     message.author.dmChannel.send(config.FINISH_SCORING_MESSAGE);
     message.author.dmChannel.send('Here are the current scores');
 
@@ -140,7 +140,7 @@ async function collectScores(message, playlistId, mongoClient) {
 module.exports = {
   name: 'start-scoring',
   description: 'Use this to score a playlist!',
-  aliases: ['ss', 'startscoring, score'],
+  aliases: ['ss', 'startscoring', 'start-score'],
   args: true,
   guildOnly: true,
   usage: '<PLAYLIST-name-dash-seperated>',

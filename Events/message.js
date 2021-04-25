@@ -39,6 +39,7 @@ module.exports = {
     // Verify that the permissions are correct
     if (command.permissions) {
       const authorPerms = message.channel.permissionsFor(message.author);
+      console.log(authorPerms);
       if (!authorPerms || !authorPerms.has(command.permissions)) {
         message.reply(config.WRONG_PERM_ERROR);
         return;
@@ -57,6 +58,12 @@ module.exports = {
 
     if (command.guildOnly && message.channel.type === 'dm') {
       message.channel.send(config.GUILD_ONLY_ERROR);
+      return;
+    }
+
+    // Verify role
+    if (command.role && !message.member.roles.cache.some((role) => role.name === command.role)) {
+      message.channel.send(config.INCORRECT_ROLE_ERROR);
       return;
     }
 
@@ -85,7 +92,7 @@ module.exports = {
 
     // If all goes well, execute the command!
     try {
-      command.execute(message, args, mongoClient);
+      command.execute(message, args, mongoClient, client);
     } catch (error) {
       message.reply(config.COMMAND_EXECUTION_ERROR);
     }

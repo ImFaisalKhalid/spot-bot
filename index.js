@@ -17,6 +17,7 @@ myMongoClient.connect();
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 client.cooldowns = new Discord.Collection();
+client.active = new Discord.Collection();
 
 // Use file system to store the names of our command folders and event files
 const eventFiles = fs.readdirSync('./events').filter((file) => file.endsWith('.js'));

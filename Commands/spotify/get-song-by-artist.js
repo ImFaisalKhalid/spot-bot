@@ -48,6 +48,12 @@ module.exports = {
   aliases: ['get-song', 'gs', 'getsongbyartist'],
   args: true,
   async execute(message, args, mongoClient) {
+    // Arg check
+    if (args[0] === undefined || args[1] === undefined) {
+      message.channel.send(config.CHECK_USAGE_ERROR);
+      return;
+    }
+
     // Arg handling
     const trackName = args[0].replace(/-/g, ' ');
     const artistName = args[1].replace(/-/g, ' ');

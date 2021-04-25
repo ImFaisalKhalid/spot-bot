@@ -26,5 +26,8 @@
   "CHECK_USAGE_ERROR": "Error - At least one of the arguments is incorrect. Use the help command to check usage!",
   "BEGIN_SCORING_MESSAGE": "You will be given a list of songs based off the playlist you specified. Listen to those songs and give each song a rating out of 10 using the `!score <number>` command. Type `!begin` once you are ready to begin scoring!",
   "FINISH_SCORING_MESSAGE": "Your responses were saved. Thank you!",
-  "GUILD_ONLY_ERROR": "Error - This command can only be run in a server channel!"
+  "GUILD_ONLY_ERROR": "Error - This command can only be run in a server channel!",
+  "INCORRECT_ROLE_ERROR": "Error - You do not have the required roles for this command!",
+  "VOICE_CHAT_ERROR": "Error - You need to be in a voice channel to use this command!",
+  "ALREADY_IN_VC_ERROR": "Error - The bot is already in a voice channel! Join that to play a song!"
 }
