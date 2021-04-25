@@ -10,6 +10,12 @@ module.exports = {
   description: 'This needs to be called to properly setup the bot for the server!',
   guildOnly: true,
   execute(message, args, mongoClient) {
+    // Basic error check to make sure we're not in DM
+    if (message.guild === null) {
+      console.log('Returning from setup');
+      return;
+    }
+
     const myDb = mongoClient.db(message.guild.id);
     const collection = myDb.collection('server-info');
 

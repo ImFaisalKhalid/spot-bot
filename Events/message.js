@@ -55,6 +55,11 @@ module.exports = {
       return;
     }
 
+    if (command.guildOnly && message.channel.type === 'dm') {
+      message.channel.send(config.GUILD_ONLY_ERROR);
+      return;
+    }
+
     // Verify that there is a cool down
     const { cooldowns } = client;
     if (!cooldowns.has(command.name)) {
