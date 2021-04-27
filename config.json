@@ -1,5 +1,5 @@
 {
-  "PREFIX": "!",
+  "PREFIX": "-",
   "DM_ONLY_ERROR": "Error - This command can only be used through DMs. Message the bot with the command!",
   "SONG_SEARCH_ERROR": "Error - The song was not found!",
   "AUTHENTICATION_ERROR": "Error - Something went wrong with Spotify authentication!",
