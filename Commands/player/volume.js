@@ -1,5 +1,12 @@
 const config = require('../../config.json');
 
+/**
+ * This module is used to control the bot's volume. The execution takes in a
+ * number between 0 and 100 to indicate what the volume should me.
+ *
+ * @type {{args: boolean, aliases: [string], name: string, cooldown: number,
+ * description: string, guildOnly: boolean, execute(*, *, *, *): undefined}}
+ */
 module.exports = {
   name: 'volume',
   description: 'This command can be used to adjust volume!',

@@ -1,5 +1,13 @@
 const config = require('../../config.json');
 
+/**
+ * This module executes code to skip the current song. It does so by causing
+ * finish to run in our dispatcher and then picks the next song in the queue to
+ * play.
+ *
+ * @type {{aliases: [string], name: string, cooldown: number,
+ * description: string, guildOnly: boolean, execute(*, *, *, *): undefined}}
+ */
 module.exports = {
   name: 'skip',
   description: 'Use this command to skip the current song!',

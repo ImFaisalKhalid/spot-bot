@@ -1,5 +1,12 @@
 const config = require('../../config.json');
 
+/**
+ * This module is used to resume a song that has been paused. It does so
+ * by simply resuming the sound in dispatcher.
+ *
+ * @type {{aliases: [string], name: string, cooldown: number,
+ * description: string, guildOnly: boolean, execute(*, *, *, *): undefined}}
+ */
 module.exports = {
   name: 'resume',
   description: 'This command will pause the current song!',

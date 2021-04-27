@@ -1,3 +1,9 @@
+/**
+ * This module simply displays what our queue looks like right now.
+ *
+ * @type {{aliases: [string], name: string, cooldown: number,
+ * description: string, guildOnly: boolean, execute(*, *, *, *): undefined}}
+ */
 module.exports = {
   name: 'queue',
   description: 'This command will list the current queue!',
