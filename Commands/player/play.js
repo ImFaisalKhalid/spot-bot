@@ -34,7 +34,7 @@ async function play(client, message, data) {
   }
 
   // eslint-disable-next-line no-param-reassign
-  data.dispatcher = await data.connection.play(await ytdl(data.queue[0].url), { type: 'opus', bitrate: 512000, highWaterMark: 50, volume: 0.5 });
+  data.dispatcher = await data.connection.play(await ytdl(data.queue[0].url, { highWaterMark: 5000 }), { type: 'opus', bitrate: 512000, highWaterMark: 5000 });
   // eslint-disable-next-line no-param-reassign
   data.dispatcher.guildId = data.guildId;
 
@@ -61,7 +61,7 @@ async function finish(client, message, dispatcher) {
   // Remove first item
   fetched.queue.shift();
 
-  // Check if it is empty
+  // Check if it is not empty
   if (fetched.queue.length > 0) {
     client.active.set(dispatcher.guildId, fetched);
     // Play next song
@@ -92,13 +92,14 @@ module.exports = {
   async execute(message, args, mongoClient, client) {
     // Check if user is in a voice channel
     if (!message.member.voice.channel) {
+      console.log('error 1');
       message.channel.send(config.VOICE_CHAT_ERROR);
       return;
     }
 
     // Check if bot is already connected
     // eslint-disable-next-line max-len
-    if (message.member.voice && message.guild.voice && message.member.voice.channelID !== message.guild.voice.channelID) {
+    if (message.member.voice && message.guild.voice && !message.member.voice.channel && message.member.voice.channelID !== message.guild.voice.channelID) {
       message.channel.send(config.ALREADY_IN_VC_ERROR);
       return;
     }

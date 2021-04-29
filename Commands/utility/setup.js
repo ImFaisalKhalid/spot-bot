@@ -9,17 +9,27 @@ module.exports = {
   name: 'setup',
   description: 'This needs to be called to properly setup the bot for the server!',
   guildOnly: true,
-  execute(message, args, mongoClient) {
+  async execute(message, args, mongoClient) {
     // Basic error check to make sure we're not in DM
     if (message.guild === null) {
-      console.log('Returning from setup');
+      console.log('Returning from setup - 1');
+      return;
+    }
+
+    if (message.guild.owner === null) {
+      console.log('Returning from setup - 2');
+      return;
+    }
+
+    if (message.guild.owner.tag === null) {
+      console.log('Returning from setup - 3');
       return;
     }
 
     const myDb = mongoClient.db(message.guild.id);
     const collection = myDb.collection('server-info');
 
-    collection.updateOne(
+    await collection.updateOne(
       { name: message.guild.name },
       {
         $set: {
