@@ -18,7 +18,7 @@ const youtubeV3 = google.youtube({ version: 'v3', auth: process.env.YOUTUBE_KEY 
  * @returns {Promise<void>}
  */
 async function play(client, message, data) {
-  // connection.play(await ytdl(url), { type: 'opus', bitrate: 128000 });
+  // connection.play(await ytdl(url), { type: 'opus', bitrate: 128000 }); test
   message.channel.send(`Now playing: ${data.queue[0].songTitle} by ${data.queue[0].songArtist}. Song was requested by ${data.queue[0].requester}!`);
   for (let i = 0; i < data.queue.length; i += 1) {
     const messageData = [];
