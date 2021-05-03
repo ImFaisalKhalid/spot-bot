@@ -1,7 +1,5 @@
 # Spot Bot
 
----
-
 ### Description:
 
 Ever get tired of listening to the same set of songs over and over again? This new Discord bot aims to solve that problem! 
@@ -57,8 +55,6 @@ YOUTUBE_KEY=
 
 # How To Use
 
----
-
 The bot comes with various different set of commands!
 
 ### Utility Commands:
@@ -91,8 +87,6 @@ The bot comes with various different set of commands!
 - ```-ping``` Ping the bot to see if it is online!
 
 # Contributing
-
----
 
 Have a set of commands that you think should be added to the bot? Found some strange bug that
 you would like to tackle? Have a way to improve sound quality? Submit a pull request!
