@@ -19,9 +19,9 @@ On top of all that, this bot allows you to listen to music in a voice channel wi
 
 ### Styling:
 - Airbnb Javascript formatting
-- Commands all stored in a```Commands```folder for easy command handler parsing
-- Events all stored in a```Events```folder for easy event handling
-- Sensitive information stored in a```.env```file
+- Commands all stored in a ```Commands``` folder for easy command handler parsing
+- Events all stored in a ```Events``` folder for easy event handling
+- Sensitive information stored in a ```.env``` file
 
 # How to Install
 
