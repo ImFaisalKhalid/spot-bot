@@ -1,13 +1,124 @@
-<p>
-    <meta charset="utf-8">
-</p>
-<p style="box-sizing: border-box; margin-top: 16px; margin-bottom: 16px; color: rgb(0, 0, 0); font-family: Helvetica, Arial, freesans, sans-serif; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;"><strong style="font-weight: bold; box-sizing: border-box;"><span data-contrast="auto" style="box-sizing: border-box; font-size: 20px;">Spotify Discord Bot</span></strong><span style="font-size: 20px;"><span data-ccp-props='{"201341983":0,"335551550":1,"335551620":1,"335559739":160,"335559740":259}' style="box-sizing: border-box;">&nbsp;</span></span></p>
-<p style="box-sizing: border-box; margin-top: 16px; margin-bottom: 16px; color: rgb(0, 0, 0); font-family: Helvetica, Arial, freesans, sans-serif; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;"><strong style="font-weight: bold; box-sizing: border-box;"><span data-contrast="auto" style="box-sizing: border-box;">Description</span></strong><span data-ccp-props='{"201341983":0,"335551550":1,"335551620":1,"335559739":160,"335559740":259}' style="box-sizing: border-box;">&nbsp;</span></p>
-<p style="box-sizing: border-box; margin-top: 16px; margin-bottom: 16px; color: rgb(0, 0, 0); font-family: Helvetica, Arial, freesans, sans-serif; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;"><span data-contrast="auto" style="box-sizing: border-box;">Ever get tired of listening to the same set of songs&nbsp;over and over again? This new Discord bot aims to solve that problem! By utilizing the&nbsp;Spotify API, the bot allows server users to generate a random song based off a certain category. It also inspires more community interaction by allowing users to submit songs to a playlist and to have them&nbsp;be&nbsp;judged competition style&nbsp;by users&nbsp;of a specific role!</span><span data-ccp-props='{"201341983":0,"335551550":1,"335551620":1,"335559739":160,"335559740":259}' style="box-sizing: border-box;">&nbsp;</span><span data-ccp-props='{"201341983":0,"335551550":1,"335551620":1,"335559739":160,"335559740":259}' style="box-sizing: border-box;">&nbsp;</span></p>
-<p style="box-sizing: border-box; margin-top: 16px; margin-bottom: 16px; color: rgb(0, 0, 0); font-family: Helvetica, Arial, freesans, sans-serif; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;"><strong style="font-weight: bold; box-sizing: border-box;"><span data-contrast="auto" style="box-sizing: border-box;">Technical Specification</span></strong><span data-ccp-props='{"201341983":0,"335551550":1,"335551620":1,"335559739":160,"335559740":259}' style="box-sizing: border-box;">&nbsp;</span></p>
-<ul style="box-sizing: border-box; padding: 0px 0px 0px 2em; margin-top: 16px; margin-bottom: 16px; color: rgb(0, 0, 0); font-family: Helvetica, Arial, freesans, sans-serif; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;">
-    <li data-aria-level="1" data-aria-posinset="1" data-font="Symbol" data-leveltext="" data-listid="2" style="box-sizing: border-box;"><span data-contrast="auto" style="box-sizing: border-box;">APIs: Discord API and Spotify API</span><span data-ccp-props='{"134233279":true,"201341983":0,"335551550":1,"335551620":1,"335559739":160,"335559740":259}' style="box-sizing: border-box;">&nbsp;</span></li>
-    <li data-aria-level="1" data-aria-posinset="2" data-font="Symbol" data-leveltext="" data-listid="2" style="box-sizing: border-box;"><span data-contrast="auto" style="box-sizing: border-box;">Languages:&nbsp;Javascript&nbsp;and Python</span><span data-ccp-props='{"134233279":true,"201341983":0,"335551550":1,"335551620":1,"335559739":160,"335559740":259}' style="box-sizing: border-box;">&nbsp;</span></li>
-    <li data-aria-level="1" data-aria-posinset="1" data-font="Symbol" data-leveltext="" data-listid="2" style="box-sizing: border-box;"><span data-contrast="auto" style="box-sizing: border-box;">Front End: React</span><span data-ccp-props='{"134233279":true,"201341983":0,"335551550":1,"335551620":1,"335559739":160,"335559740":259}' style="box-sizing: border-box;">&nbsp;</span></li>
-    <li data-aria-level="1" data-aria-posinset="2" data-font="Symbol" data-leveltext="" data-listid="2" style="box-sizing: border-box;"><span data-contrast="auto" style="box-sizing: border-box;">Backend:&nbsp;NodeJs, Flask</span><span data-ccp-props='{"134233279":true,"201341983":0,"335551550":1,"335551620":1,"335559739":160,"335559740":259}' style="box-sizing: border-box;">&nbsp;</span></li>
-</ul>
+# Spot Bot
+
+---
+
+### Description:
+
+Ever get tired of listening to the same set of songs over and over again? This new Discord bot aims to solve that problem! 
+By utilizing the Spotify API, the bot allows server users to generate a random song based off a certain category. It also 
+inspires more community interaction by allowing users to submit songs to a playlist and to have them be judged competition
+style by users of a specific role!  
+
+On top of all that, this bot allows you to listen to music in a voice channel without the bitrate being capped behind a paywall!
+
+### Technologies Used:
+- Axios
+- Digital Ocean
+- MongoDB Atlas
+- NodeJs
+- Spotify and Youtube APIs
+- Discord.js Library
+
+### Styling:
+- Airbnb Javascript formatting
+- Commands all stored in a```Commands```folder for easy command handler parsing
+- Events all stored in a```Events```folder for easy event handling
+- Sensitive information stored in a```.env```file
+
+# How to Install
+
+---
+
+### Local Copy:
+1. Clone the project
+2. Install the npm packages: 
+```bash
+npm install
+```
+3. Create a .env file:
+```bash
+vi .env
+```
+4. Post in the token information using the following format:
+```bash
+DISCORD_TOKEN=
+SPOTIFY_TOKEN=
+SPOTIFY_CLIENT_ID=
+MONGO_USER=
+MONGO_PASS=
+YOUTUBE_KEY=
+```
+5. Begin developing!
+
+### Inviting the Bot:
+1. Invite the bot using [this link](https://discord.com/oauth2/authorize?client_id=827367232459243521&scope=bot&permissions=8)
+2. Confirm the server
+3. Start using it!
+
+# How To Use
+
+---
+
+The bot comes with various different set of commands!
+
+### Utility Commands:
+
+- ```-help``` List all of the commands this bot supports!
+
+
+### Spotify Commands:
+
+- ```-authorize``` Authorize your Spotify account! Required for playlist creation!
+- ```-create-server-playlist``` Create a collaborative playlist for the server!
+- ```-add-to-playlist``` List all the server playlists!
+- ```-list-playlists``` List all the server playlists!
+- ```-get-song-by-artist``` Get a Spotify song!
+- ```-get-random-song``` Get a random Spotify song based off a specific chosen genre!
+- ```-list-genres``` List all the available genres to search for!
+- ```-start-scoring``` Use this to score a playlist!
+
+### Player Commands:
+
+- ```-play``` Play a song!
+- ```-pause``` Pause the current song!
+- ```-resume``` Resume the current song!
+- ```-skip``` Skip the current song
+- ```-volume``` Adjust the volume!
+- ```-queue``` List the current queue!
+
+### Fun:
+
+- ```-ping``` Ping the bot to see if it is online!
+
+# Contributing
+
+---
+
+Have a set of commands that you think should be added to the bot? Found some strange bug that
+you would like to tackle? Have a way to improve sound quality? Submit a pull request!
+
+Contributions are always welcome! If you are looking for a starting point, here are some features that
+still need to be implemented:
+
+- **SoundCloud support** 
+    - The bot needs to be able to get songs from SoundCloud and play them 
+      via voice chat.
+    
+- **YouTube playlist** 
+    - The bot still does not allow you to create or play YouTube playlists.
+
+- **A way to play Spotify playlists** 
+    - This bot allows servers to create their own playlists but currently
+does not have a features to allow users to play a playlist via voice chat.
+  
+- **Join and kick bot commands** 
+    - A set of commands that allow you to summon a bot into a voice
+chat and kick it from the voice chat.
+  
+- **Anything that makes the queue or music player a better experience**
+    - Perhaps a way to show song lyrics?
+    - Clearing the queue?
+    - Shuffle a queue?
+    - Save the current song by getting a DM?
+    
+**The possibilities are endless!**
