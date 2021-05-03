@@ -25,8 +25,6 @@ On top of all that, this bot allows you to listen to music in a voice channel wi
 
 # How to Install
 
----
-
 ### Local Copy:
 1. Clone the project
 2. Install the npm packages: 
